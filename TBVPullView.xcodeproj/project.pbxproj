@@ -19,8 +19,10 @@
 		D661EEAE1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */; };
 		D661EEAF1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */; };
 		D661EEB11CF1745500CC20B0 /* TVBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEB01CF1745500CC20B0 /* TVBViewController.swift */; };
-		D661EEB31CF1749400CC20B0 /* animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = D661EEB21CF1749400CC20B0 /* animated.gif */; };
-		D661EEB41CF1749400CC20B0 /* animated.gif in Resources */ = {isa = PBXBuildFile; fileRef = D661EEB21CF1749400CC20B0 /* animated.gif */; };
+		D68391C81CF3F79C0054A760 /* 1.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C41CF3F79C0054A760 /* 1.gif */; };
+		D68391C91CF3F79C0054A760 /* 2.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C51CF3F79C0054A760 /* 2.gif */; };
+		D68391CA1CF3F79C0054A760 /* 3.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C61CF3F79C0054A760 /* 3.gif */; };
+		D68391CB1CF3F79C0054A760 /* 4.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C71CF3F79C0054A760 /* 4.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +49,10 @@
 		D661EEA81CF1743F00CC20B0 /* TVBPullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVBPullView.swift; sourceTree = "<group>"; };
 		D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+GifExtension.swift"; sourceTree = "<group>"; };
 		D661EEB01CF1745500CC20B0 /* TVBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVBViewController.swift; sourceTree = "<group>"; };
-		D661EEB21CF1749400CC20B0 /* animated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = animated.gif; sourceTree = "<group>"; };
+		D68391C41CF3F79C0054A760 /* 1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 1.gif; sourceTree = "<group>"; };
+		D68391C51CF3F79C0054A760 /* 2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 2.gif; sourceTree = "<group>"; };
+		D68391C61CF3F79C0054A760 /* 3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 3.gif; sourceTree = "<group>"; };
+		D68391C71CF3F79C0054A760 /* 4.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 4.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,10 +94,10 @@
 		D661EE811CF173E700CC20B0 /* TBVPullView */ = {
 			isa = PBXGroup;
 			children = (
+				D68391C31CF3F79C0054A760 /* Resource */,
 				D661EEA61CF1743F00CC20B0 /* Classes */,
 				D661EE821CF173E700CC20B0 /* AppDelegate.swift */,
 				D661EEB01CF1745500CC20B0 /* TVBViewController.swift */,
-				D661EEB21CF1749400CC20B0 /* animated.gif */,
 				D661EEA41CF1740700CC20B0 /* Main.storyboard */,
 				D661EE8B1CF173E700CC20B0 /* Assets.xcassets */,
 				D661EE8D1CF173E700CC20B0 /* LaunchScreen.storyboard */,
@@ -118,6 +123,17 @@
 				D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		D68391C31CF3F79C0054A760 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				D68391C41CF3F79C0054A760 /* 1.gif */,
+				D68391C51CF3F79C0054A760 /* 2.gif */,
+				D68391C61CF3F79C0054A760 /* 3.gif */,
+				D68391C71CF3F79C0054A760 /* 4.gif */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,10 +217,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D68391CA1CF3F79C0054A760 /* 3.gif in Resources */,
 				D661EEA51CF1740700CC20B0 /* Main.storyboard in Resources */,
+				D68391C91CF3F79C0054A760 /* 2.gif in Resources */,
 				D661EE8F1CF173E700CC20B0 /* LaunchScreen.storyboard in Resources */,
+				D68391C81CF3F79C0054A760 /* 1.gif in Resources */,
 				D661EE8C1CF173E700CC20B0 /* Assets.xcassets in Resources */,
-				D661EEB31CF1749400CC20B0 /* animated.gif in Resources */,
+				D68391CB1CF3F79C0054A760 /* 4.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +231,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D661EEB41CF1749400CC20B0 /* animated.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +428,7 @@
 				D661EEA01CF173E700CC20B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D661EEA11CF173E700CC20B0 /* Build configuration list for PBXNativeTarget "TBVPullViewUITests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +437,7 @@
 				D661EEA31CF173E700CC20B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

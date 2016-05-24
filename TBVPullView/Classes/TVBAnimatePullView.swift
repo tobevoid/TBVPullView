@@ -16,25 +16,36 @@ class TVBAnimatePullView: TVBPullView {
         self.addSubview(imageView)
         return imageView
     }()
-    lazy var images: [UIImage]? = {
-        if let gifURL = NSBundle.mainBundle().URLForResource("animated.gif", withExtension: nil) {
+    var images: [UIImage]?
+    var animatedImage: UIImage?
+    
+    
+    convenience init(type: TVBPullViewType, triggeringImages: [UIImage], loadingImages: [UIImage], backgroundColor: UIColor, refreshingCallBack: ((refreshView: TVBPullView) -> Void)) {
+        self.init(type: type, triggeringImages: triggeringImages, animatedImage: UIImage.animatedImageWithImages(loadingImages, duration: 1.5), backgroundColor: backgroundColor, refreshingCallBack: refreshingCallBack)
+    }
+    
+    init(type: TVBPullViewType, imageName: String, backgroundColor: UIColor, refreshingCallBack: ((refreshView: TVBPullView) -> Void)) {
+        if let gifURL = NSBundle.mainBundle().URLForResource(imageName, withExtension: nil) {
             if let data = NSData(contentsOfURL: gifURL) {
-                if let images = UIImage.imagesWithGifData(data) {
-                    return images
-                }
+                images = UIImage.imagesWithGifData(data)
             }
         }
-        return nil
-    }()
-    lazy var animatedImage: UIImage? = {
-        guard let images = self.images else { return nil }
-        return UIImage.animatedImageWithImages(images, duration: 1.5)
-    }()
-    
-    init(type: TVBPullViewType, refreshingCallBack: ((refreshView: TVBPullView) -> Void)) {
+        if let images = images {
+            self.animatedImage = UIImage.animatedImageWithImages(images, duration: 1.5)
+        }
         super.init(frame: .zero)
         self.refreshingCallBack = refreshingCallBack
-        pullViewType = type
+        self.pullViewType = type
+        self.backgroundColor = backgroundColor
+    }
+
+    init(type: TVBPullViewType, triggeringImages: [UIImage], animatedImage: UIImage?, backgroundColor: UIColor, refreshingCallBack: ((refreshView: TVBPullView) -> Void)) {
+        self.images = triggeringImages
+        self.animatedImage = animatedImage
+        super.init(frame: .zero)
+        self.refreshingCallBack = refreshingCallBack
+        self.pullViewType = type
+        self.backgroundColor = backgroundColor
     }
     
     required init?(coder aDecoder: NSCoder) {

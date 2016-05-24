@@ -184,6 +184,7 @@ extension TVBPullViewStateMachineHelper {
                 self.scrollView?.contentInset.top = -offsetY
             }
             self.scrollView?.contentOffset.y = offsetY
+            print(offsetY, self.isHeader)
         }
     }
     
@@ -222,7 +223,7 @@ extension TVBPullViewStateMachineHelper {
     }
     
     private var footerAppearOffsetY: CGFloat {
-        return absoluteContentSizeHeight > 0 ? absoluteContentSizeHeight - originEdgeInsets.top : -originEdgeInsets.top
+        return absoluteContentSizeHeight > 0 ? absoluteContentSizeHeight - originEdgeInsets.top : 0
     }
     
     private var headerAppearOffsetY: CGFloat {
@@ -257,7 +258,7 @@ extension TVBPullViewStateMachineHelper {
     private var canFinishCondition: Bool {
         return isHeader ?
             contentOffsetY == headerAppearOffsetY :
-            contentOffsetY == footerAppearOffsetY
+            contentOffsetY <= footerAppearOffsetY
     }
     
     private var adjustedLoadingOffset: CGFloat {
@@ -269,7 +270,7 @@ extension TVBPullViewStateMachineHelper {
     private var adjustedNoneOffset: CGFloat {
         return isHeader ?
             headerAppearOffsetY :
-            footerAppearOffsetY
+            contentOffsetY
     }
 }
 

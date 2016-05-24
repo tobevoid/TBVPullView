@@ -13,27 +13,37 @@ class TVBViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private let identifier = "TVBViewControllerCell"
     private var number = Int(0)
-    private var numberOfRows = Int(15)
+    private var numberOfRows = Int(5)
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.header = TVBAnimatePullView(type: .Header, refreshingCallBack: { (refreshView) in
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC * 2)), dispatch_get_main_queue(), {
-                print("loading complete")
-//                self.numberOfRows += self.numberOfRows
-                self.tableView.reloadData()
-                refreshView.endRefreshing()
-            })
-        })
+        self.tableView.tableFooterView = UIView()
         
-        tableView.footer = TVBAnimatePullView(type: .Footer, refreshingCallBack: { (refreshView) in
+        self.tableView.header = TVBAnimatePullView(type: .Header, imageName: "4.gif", backgroundColor: UIColor(red: 102 / 255.0, green: 206 / 255.0, blue: 255 / 255.0, alpha: 1.0)) { (refreshView) in
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC * 2)), dispatch_get_main_queue(), {
-                print("loading complete")
-                //                self.numberOfRows += self.numberOfRows
+                print("load new complete")
+                self.numberOfRows = 5
                 self.tableView.reloadData()
                 refreshView.endRefreshing()
             })
-        })
+        }
+        
+        var loadingImages = [UIImage]()
+        if let gifURL = NSBundle.mainBundle().URLForResource("2.gif", withExtension: nil) {
+            if let data = NSData(contentsOfURL: gifURL) {
+                if let images = UIImage.imagesWithGifData(data) {
+                    loadingImages = images
+                }
+            }
+        }
+        
+        self.tableView.footer = TVBAnimatePullView(type: .Footer, triggeringImages: loadingImages, loadingImages: loadingImages, backgroundColor: UIColor(red: 28 / 255.0, green: 39 / 255.0, blue: 42 / 255.0, alpha: 1.0)) { (refreshView) in
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC * 2)), dispatch_get_main_queue(), {
+                print("load more complete")
+                self.numberOfRows += 5
+                self.tableView.reloadData()
+                refreshView.endRefreshing()
+            })
+        }
         
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(NSEC_PER_SEC * 2)), dispatch_get_main_queue(), {
