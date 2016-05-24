@@ -1,6 +1,6 @@
 //
-//  TVBPullRefreshProtocol.swift
-//  TVBAnimatePullView
+//  TBVPullRefreshProtocol.swift
+//  TBVAnimatePullView
 //
 //  Created by tripleCC on 16/5/17.
 //  Copyright © 2016年 tripleCC. All rights reserved.
@@ -8,16 +8,16 @@
 
 import UIKit
 
-private enum TVBObserverKeyPath: String {
+private enum TBVObserverKeyPath: String {
     case ContentOffset = "contentOffset"
     case ContentSize = "contentSize"
     case ContentInset = "contentInset"
-    static func keyPaths() -> [TVBObserverKeyPath] {
+    static func keyPaths() -> [TBVObserverKeyPath] {
         return [.ContentOffset, .ContentSize, .ContentInset]
     }
 }
 
-public enum TVBRefreshState: Int {
+public enum TBVRefreshState: Int {
     case None
     case Triggering
     case Triggered
@@ -25,16 +25,16 @@ public enum TVBRefreshState: Int {
     case CanFinish
 }
 
-public enum TVBPullViewType: Int {
+public enum TBVPullViewType: Int {
     case Header
     case Footer
 }
 
-private let TVBPullViewHeight = CGFloat(54.0)
-private let TVBPullViewRequiredTriggledPercent = CGFloat(0.95)
-private let TVBPullViewRecoverNoneDuration = NSTimeInterval(0.25)
-private let TVBPullViewRecoverLoadingDuration = NSTimeInterval(0.25)
-private let TVBPullViewChangeVisualityDurantion = NSTimeInterval(0.3)
+private let TBVPullViewHeight = CGFloat(54.0)
+private let TBVPullViewRequiredTriggledPercent = CGFloat(0.95)
+private let TBVPullViewRecoverNoneDuration = NSTimeInterval(0.25)
+private let TBVPullViewRecoverLoadingDuration = NSTimeInterval(0.25)
+private let TBVPullViewChangeVisualityDurantion = NSTimeInterval(0.3)
 
 private func dispatchSeconds(second: NSTimeInterval, action: () -> ()) {
     let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(second * Double(NSEC_PER_SEC)))
@@ -43,37 +43,41 @@ private func dispatchSeconds(second: NSTimeInterval, action: () -> ()) {
     }
 }
 
-public class TVBPullView: UIView {
+public class TBVPullView: UIView {
     public var showPullView: Bool = true {
         didSet {
+            if oldValue == showPullView { return }
             hidden = !showPullView
             removeAllObservers()
             if showPullView {
                 addAllObservers()
-                recoverScrollViewContentInset()
-            } else {
                 resetScrollViewContentInset()
+            } else {
+                recoverScrollViewContentInset()
             }
+//            guard let scrollView = scrollView else { return }
+//            originEdgeInset = scrollView.contentInset
+            print(#function, contentOffsetY, originEdgeInset, showPullView, self.frame)
         }
     }
     
-    internal var pullViewType: TVBPullViewType?
+    internal var pullViewType: TBVPullViewType?
     internal var pullViewHeight: CGFloat {
-        return TVBPullViewHeight
+        return TBVPullViewHeight
     }
     internal var requiredTriggledPercent: CGFloat {
-        return TVBPullViewRequiredTriggledPercent
+        return TBVPullViewRequiredTriggledPercent
     }
     internal var recoverNoneDuration: NSTimeInterval {
-        return TVBPullViewRecoverNoneDuration
+        return TBVPullViewRecoverNoneDuration
     }
     internal var recoverLoadingDuration: NSTimeInterval {
-        return TVBPullViewRecoverLoadingDuration
+        return TBVPullViewRecoverLoadingDuration
     }
     internal var changeVisualityDurantion: NSTimeInterval {
-        return TVBPullViewChangeVisualityDurantion
+        return TBVPullViewChangeVisualityDurantion
     }
-    internal var refreshState: TVBRefreshState = .None {
+    internal var refreshState: TBVRefreshState = .None {
         didSet {
             let triggerPercent = refreshState == .Triggering ? triggerPercentHeight / frame.height : 0
             if refreshState != oldValue {
@@ -84,9 +88,9 @@ public class TVBPullView: UIView {
     }
     // Superview must be UIScrollView or it's subclass
     internal var scrollView: UIScrollView?
-    internal var refreshingCallBack: ((refreshView: TVBPullView) -> Void)?
+    internal var refreshingCallBack: ((refreshView: TBVPullView) -> Void)?
     private var hadAddObservers = Bool(false)
-    private var originEdgeInsets = UIEdgeInsets()
+    private var originEdgeInset = UIEdgeInsets()
     private var isHeader: Bool {
         if pullViewType == nil {
             fatalError("pullViewType must be set by subclass in order to get right type")
@@ -108,11 +112,12 @@ public class TVBPullView: UIView {
         
         guard let scrollView = newSuperview as? UIScrollView else { return }
         self.scrollView = scrollView
-        originEdgeInsets = scrollView.contentInset
+        originEdgeInset = scrollView.contentInset
         frame.size = CGSize(width: scrollView.frame.width, height: pullViewHeight)
         removeAllObservers()
         addAllObservers()
         resetScrollViewContentInset()
+//        print(self.frame)
     }
     
     deinit {
@@ -122,7 +127,7 @@ public class TVBPullView: UIView {
     
     // Subclass must overwrite this method to observer changes of refresh state and adjust interface
     // TrigglePercent is progress of state from Triggering to triggered
-    internal func adjustInterfaceByRefreshState(refreshState: TVBRefreshState,
+    internal func adjustInterfaceByRefreshState(refreshState: TBVRefreshState,
                                                 triggerPercent: CGFloat) {
         fatalError("\(#function) must be overwrited by subclass")
     }
@@ -151,6 +156,7 @@ public class TVBPullView: UIView {
             }
         case .CanFinish:
             if !scrollView.dragging && canFinishCondition {
+                setScrollViewContentOffsetY(adjustedNoneOffset, duration: recoverNoneDuration)
                 dispatchSeconds(recoverNoneDuration, action: {
                     self.refreshState = .None
                 })
@@ -161,17 +167,13 @@ public class TVBPullView: UIView {
     }
     
     public func endRefreshing() {
-        guard let scrollView = scrollView else { return }
         refreshState = .CanFinish
-        if !scrollView.dragging {
-            setScrollViewContentOffsetY(adjustedNoneOffset, duration: recoverNoneDuration)
-        }
         runRefreshStateMachine()
     }
 }
 
-typealias TVBPullViewStateMachineHelper = TVBPullView
-extension TVBPullViewStateMachineHelper {
+typealias TBVPullViewStateMachineHelper = TBVPullView
+extension TBVPullViewStateMachineHelper {
     private func setScrollViewEdgeInset(inset: UIEdgeInsets) {
         UIView.animateWithDuration(changeVisualityDurantion) {
             self.scrollView?.contentInset = inset
@@ -189,26 +191,27 @@ extension TVBPullViewStateMachineHelper {
     }
     
     private func resetScrollViewContentInset() {
-        setScrollViewEdgeInsetWithBottomOffset(frame.height)
+        setScrollViewEdgeInsetWithOffset(frame.height)
+        resetOriginY()
     }
     
     private func recoverScrollViewContentInset() {
-        setScrollViewEdgeInsetWithBottomOffset(-frame.height)
+        setScrollViewEdgeInsetWithOffset(-frame.height)
     }
     
-    private func setScrollViewEdgeInsetWithBottomOffset(bottomOffset: CGFloat) {
+    private func setScrollViewEdgeInsetWithOffset(offset: CGFloat) {
         guard let scrollView = scrollView else { return }
         var edgeInset = scrollView.contentInset
         if isHeader {
-            edgeInset.top = originEdgeInsets.top
+            edgeInset.top = originEdgeInset.top
         } else {
-            edgeInset.bottom = originEdgeInsets.bottom + bottomOffset
+            edgeInset.bottom = originEdgeInset.bottom + offset
         }
-        print(edgeInset.bottom)
+        print(#function, edgeInset, isHeader)
         setScrollViewEdgeInset(edgeInset)
     }
     
-    private func adjustPosition() {
+    private func resetOriginY() {
         guard let scrollView = scrollView else { return }
         frame.origin.y = isHeader ? -frame.size.height : scrollView.contentSize.height
     }
@@ -219,15 +222,15 @@ extension TVBPullViewStateMachineHelper {
     
     private var absoluteContentSizeHeight: CGFloat {
         guard let scrollView = scrollView else { return 0 }
-        return scrollView.contentSize.height - scrollView.bounds.height + originEdgeInsets.bottom + originEdgeInsets.top
+        return scrollView.contentSize.height - scrollView.bounds.height + originEdgeInset.bottom + originEdgeInset.top
     }
     
     private var footerAppearOffsetY: CGFloat {
-        return absoluteContentSizeHeight > 0 ? absoluteContentSizeHeight - originEdgeInsets.top : 0
+        return absoluteContentSizeHeight > 0 ? absoluteContentSizeHeight - originEdgeInset.top : 0
     }
     
     private var headerAppearOffsetY: CGFloat {
-        return -originEdgeInsets.top
+        return -originEdgeInset.top
     }
     
     private var triggerPercentHeight: CGFloat {
@@ -245,19 +248,17 @@ extension TVBPullViewStateMachineHelper {
     
     private var triggeredCondition: Bool {
         return isHeader ?
-            contentOffsetY < headerAppearOffsetY - frame.height :
-            contentOffsetY > footerAppearOffsetY + frame.height
+            contentOffsetY <= headerAppearOffsetY - frame.height * requiredTriggledPercent :
+            contentOffsetY >= footerAppearOffsetY + frame.height * requiredTriggledPercent
     }
     
     private var loadingCondition: Bool {
-        return isHeader ?
-            contentOffsetY < headerAppearOffsetY - frame.height * requiredTriggledPercent :
-            contentOffsetY > footerAppearOffsetY + frame.height * requiredTriggledPercent
+        return triggeredCondition
     }
     
     private var canFinishCondition: Bool {
         return isHeader ?
-            contentOffsetY == headerAppearOffsetY :
+            contentOffsetY <= headerAppearOffsetY :
             contentOffsetY <= footerAppearOffsetY
     }
     
@@ -274,11 +275,11 @@ extension TVBPullViewStateMachineHelper {
     }
 }
 
-typealias TVBPullViewObserver = TVBPullView
-extension TVBPullViewObserver {
+typealias TBVPullViewObserver = TBVPullView
+extension TBVPullViewObserver {
     private func removeAllObservers() {
         if !hadAddObservers { return }
-        TVBObserverKeyPath.keyPaths().forEach {
+        TBVObserverKeyPath.keyPaths().forEach {
             self.removeObserverForKeyPath($0)
         }
         hadAddObservers = false
@@ -286,17 +287,17 @@ extension TVBPullViewObserver {
     
     private func addAllObservers() {
         if hadAddObservers { return }
-        TVBObserverKeyPath.keyPaths().forEach {
+        TBVObserverKeyPath.keyPaths().forEach {
             self.addObserverForKeyPath($0)
         }
         hadAddObservers = true
     }
     
-    private func removeObserverForKeyPath(keyPath: TVBObserverKeyPath) {
+    private func removeObserverForKeyPath(keyPath: TBVObserverKeyPath) {
         scrollView?.removeObserver(self, forKeyPath: keyPath.rawValue)
     }
     
-    private func addObserverForKeyPath(keyPath: TVBObserverKeyPath) {
+    private func addObserverForKeyPath(keyPath: TBVObserverKeyPath) {
         scrollView?.addObserver(self, forKeyPath: keyPath.rawValue, options: [.New, .Old], context: nil)
     }
     
@@ -304,7 +305,7 @@ extension TVBPullViewObserver {
         guard let change = change,
             let keyPathString = keyPath else { return }
         
-        guard let keyPath = TVBObserverKeyPath(rawValue: keyPathString) else { return }
+        guard let keyPath = TBVObserverKeyPath(rawValue: keyPathString) else { return }
         switch keyPath {
         case .ContentOffset:
             guard let new = change[NSKeyValueChangeNewKey]?.CGPointValue,
@@ -315,24 +316,24 @@ extension TVBPullViewObserver {
             guard let new = change[NSKeyValueChangeNewKey]?.CGSizeValue(),
                   let old = change[NSKeyValueChangeOldKey]?.CGSizeValue() else { return }
             guard new != old else { return }
-            adjustPosition()
+            resetOriginY()
         case .ContentInset:
             // Don't change edgeInsets when pullView is in loading state ,
             // otherwise the observer would't record this change
             guard let edgeInsets = change[NSKeyValueChangeNewKey]?.UIEdgeInsetsValue()
                 where refreshState != .Loading else { return }
-            originEdgeInsets = edgeInsets
+            originEdgeInset = edgeInsets
         }
     }
 }
 
 extension UIScrollView {
     private struct Static {
-        static var TVBRefreshHeaderKey = "TVBRefreshHeaderKey"
-        static var TVBLoadMoreFooterKey = "TVBLoadMoreFooterKey"
+        static var TBVRefreshHeaderKey = "TBVRefreshHeaderKey"
+        static var TBVLoadMoreFooterKey = "TBVLoadMoreFooterKey"
     }
     
-    var header: TVBPullView? {
+    var header: TBVPullView? {
         set {
             header?.removeFromSuperview()
             print(header)
@@ -341,14 +342,14 @@ extension UIScrollView {
                 fatalError("the header's pullViewType should be Header")
             }
             addSubview(header)
-            objc_setAssociatedObject(self, &Static.TVBRefreshHeaderKey, header, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &Static.TBVRefreshHeaderKey, header, .OBJC_ASSOCIATION_ASSIGN)
         }
         get {
-            return objc_getAssociatedObject(self, &Static.TVBRefreshHeaderKey) as? TVBPullView
+            return objc_getAssociatedObject(self, &Static.TBVRefreshHeaderKey) as? TBVPullView
         }
     }
     
-    var footer: TVBPullView? {
+    var footer: TBVPullView? {
         set {
             footer?.removeFromSuperview()
             guard let footer = newValue else { return }
@@ -356,10 +357,10 @@ extension UIScrollView {
                 fatalError("the footer's pullViewType should be Footer")
             }
             addSubview(footer)
-            objc_setAssociatedObject(self, &Static.TVBLoadMoreFooterKey, footer, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &Static.TBVLoadMoreFooterKey, footer, .OBJC_ASSOCIATION_ASSIGN)
         }
         get {
-            return objc_getAssociatedObject(self, &Static.TVBLoadMoreFooterKey) as? TVBPullView
+            return objc_getAssociatedObject(self, &Static.TBVLoadMoreFooterKey) as? TBVPullView
         }
     }
 }

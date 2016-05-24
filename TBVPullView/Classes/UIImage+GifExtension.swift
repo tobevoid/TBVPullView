@@ -1,6 +1,6 @@
 //
 //  UIImage+GifExtension.swift
-//  TVBAnimatePullView
+//  TBVAnimatePullView
 //
 //  Created by tripleCC on 16/5/20.
 //  Copyright © 2016年 tripleCC. All rights reserved.

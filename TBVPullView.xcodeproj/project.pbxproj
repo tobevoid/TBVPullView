@@ -12,13 +12,11 @@
 		D661EE8F1CF173E700CC20B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D661EE8D1CF173E700CC20B0 /* LaunchScreen.storyboard */; };
 		D661EE9A1CF173E700CC20B0 /* TBVPullViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EE991CF173E700CC20B0 /* TBVPullViewUITests.swift */; };
 		D661EEA51CF1740700CC20B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D661EEA41CF1740700CC20B0 /* Main.storyboard */; };
-		D661EEAA1CF1743F00CC20B0 /* TVBAnimatePullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA71CF1743F00CC20B0 /* TVBAnimatePullView.swift */; };
-		D661EEAB1CF1743F00CC20B0 /* TVBAnimatePullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA71CF1743F00CC20B0 /* TVBAnimatePullView.swift */; };
-		D661EEAC1CF1743F00CC20B0 /* TVBPullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA81CF1743F00CC20B0 /* TVBPullView.swift */; };
-		D661EEAD1CF1743F00CC20B0 /* TVBPullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA81CF1743F00CC20B0 /* TVBPullView.swift */; };
 		D661EEAE1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */; };
 		D661EEAF1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */; };
 		D661EEB11CF1745500CC20B0 /* TVBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D661EEB01CF1745500CC20B0 /* TVBViewController.swift */; };
+		D67FF6E51CF6F3BB00B866BC /* TBVAnimatePullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FF6E31CF6F3BB00B866BC /* TBVAnimatePullView.swift */; };
+		D67FF6E61CF6F3BB00B866BC /* TBVPullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67FF6E41CF6F3BB00B866BC /* TBVPullView.swift */; };
 		D68391C81CF3F79C0054A760 /* 1.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C41CF3F79C0054A760 /* 1.gif */; };
 		D68391C91CF3F79C0054A760 /* 2.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C51CF3F79C0054A760 /* 2.gif */; };
 		D68391CA1CF3F79C0054A760 /* 3.gif in Resources */ = {isa = PBXBuildFile; fileRef = D68391C61CF3F79C0054A760 /* 3.gif */; };
@@ -45,10 +43,10 @@
 		D661EE991CF173E700CC20B0 /* TBVPullViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBVPullViewUITests.swift; sourceTree = "<group>"; };
 		D661EE9B1CF173E700CC20B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D661EEA41CF1740700CC20B0 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		D661EEA71CF1743F00CC20B0 /* TVBAnimatePullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVBAnimatePullView.swift; sourceTree = "<group>"; };
-		D661EEA81CF1743F00CC20B0 /* TVBPullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVBPullView.swift; sourceTree = "<group>"; };
 		D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+GifExtension.swift"; sourceTree = "<group>"; };
 		D661EEB01CF1745500CC20B0 /* TVBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TVBViewController.swift; sourceTree = "<group>"; };
+		D67FF6E31CF6F3BB00B866BC /* TBVAnimatePullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBVAnimatePullView.swift; sourceTree = "<group>"; };
+		D67FF6E41CF6F3BB00B866BC /* TBVPullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TBVPullView.swift; sourceTree = "<group>"; };
 		D68391C41CF3F79C0054A760 /* 1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 1.gif; sourceTree = "<group>"; };
 		D68391C51CF3F79C0054A760 /* 2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 2.gif; sourceTree = "<group>"; };
 		D68391C61CF3F79C0054A760 /* 3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 3.gif; sourceTree = "<group>"; };
@@ -118,8 +116,8 @@
 		D661EEA61CF1743F00CC20B0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D661EEA71CF1743F00CC20B0 /* TVBAnimatePullView.swift */,
-				D661EEA81CF1743F00CC20B0 /* TVBPullView.swift */,
+				D67FF6E31CF6F3BB00B866BC /* TBVAnimatePullView.swift */,
+				D67FF6E41CF6F3BB00B866BC /* TBVPullView.swift */,
 				D661EEA91CF1743F00CC20B0 /* UIImage+GifExtension.swift */,
 			);
 			path = Classes;
@@ -241,11 +239,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D67FF6E61CF6F3BB00B866BC /* TBVPullView.swift in Sources */,
 				D661EEB11CF1745500CC20B0 /* TVBViewController.swift in Sources */,
 				D661EEAE1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */,
-				D661EEAA1CF1743F00CC20B0 /* TVBAnimatePullView.swift in Sources */,
+				D67FF6E51CF6F3BB00B866BC /* TBVAnimatePullView.swift in Sources */,
 				D661EE831CF173E700CC20B0 /* AppDelegate.swift in Sources */,
-				D661EEAC1CF1743F00CC20B0 /* TVBPullView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,9 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D661EEAF1CF1743F00CC20B0 /* UIImage+GifExtension.swift in Sources */,
-				D661EEAB1CF1743F00CC20B0 /* TVBAnimatePullView.swift in Sources */,
 				D661EE9A1CF173E700CC20B0 /* TBVPullViewUITests.swift in Sources */,
-				D661EEAD1CF1743F00CC20B0 /* TVBPullView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
