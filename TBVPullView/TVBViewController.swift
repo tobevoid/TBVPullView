@@ -24,8 +24,10 @@ class TVBViewController: UIViewController {
                 self.numberOfRows = 5
                 self.tableView.reloadData()
                 refreshView.endRefreshing()
+//                refreshView.showPullView = false
             })
         }
+        self.tableView.header?.showPullView = false
         
         var loadingImages = [UIImage]()
         if let gifURL = NSBundle.mainBundle().URLForResource("2.gif", withExtension: nil) {
@@ -42,6 +44,8 @@ class TVBViewController: UIViewController {
                 self.numberOfRows += 5
                 self.tableView.reloadData()
                 refreshView.endRefreshing()
+                refreshView.showPullView = false
+                self.tableView.header?.showPullView = true
             })
         }
         
